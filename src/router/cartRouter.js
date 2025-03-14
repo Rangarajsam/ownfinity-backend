@@ -1,13 +1,12 @@
 import express from 'express';
 import auth from '../middleware/authMiddleware.js';
-import admin from '../middleware/adminMiddleware.js';
 import Cart from '../model/cartModel.js';
 import Product from '../model/productModel.js';
-import {buildProduct, saveToCart} from '../utils/cartUtils.js'
+import {saveToCart} from '../utils/cartUtils.js'
 
 const router = express.Router();
 
-router.post('/cart', auth, admin, async (req, res) => {
+router.post('/cart', auth, async (req, res) => {
     try {
         const availableCart = await Cart.findOne({ user: req.user._id });
         const productDetails = await Product.findOne({ seller: req.user._id, _id: req.body.productId });
@@ -32,7 +31,7 @@ router.post('/cart', auth, admin, async (req, res) => {
     }
 })
 
-router.delete('/cart/removeItem/:itemId', auth, admin, async (req, res) => {
+router.delete('/cart/removeItem/:itemId', auth, async (req, res) => {
     try {
         const cart = await Cart.findOne({ user: req.user._id });
         const itemIndex = cart.items.findIndex(i => i._id.equals(req.params.itemId))
@@ -47,7 +46,7 @@ router.delete('/cart/removeItem/:itemId', auth, admin, async (req, res) => {
     }
 })
 
-router.delete('/cart/clearCart', auth, admin, async (req, res) => {
+router.delete('/cart/clearCart', auth, async (req, res) => {
     try {
         const cart = await Cart.findOne({ user: req.user._id })
         if(!cart) {
@@ -61,7 +60,7 @@ router.delete('/cart/clearCart', auth, admin, async (req, res) => {
     }
 })
 
-router.patch('/cart/:itemId', auth, admin, async(req, res) => {
+router.patch('/cart/:itemId', auth, async(req, res) => {
     try{
         const requsetedKeys = Object.keys(req.body);
         const allowedKeys = ["quantity"];
@@ -86,7 +85,7 @@ router.patch('/cart/:itemId', auth, admin, async(req, res) => {
     }
 })
 
-router.get('/cart', auth, admin, async (req, res) => {
+router.get('/cart', auth, async (req, res) => {
     try {
         const cart = await Cart.findOne({ user: req.user._id })
         if(!cart) {
