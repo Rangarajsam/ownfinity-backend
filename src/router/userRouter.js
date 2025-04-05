@@ -55,7 +55,7 @@ router.post('/logout', auth, async(req, res) => {
         const user = req.user;
         user.tokens = user.tokens.filter(t => t.token !== req.token);
         user.save();
-        res.send("Loggout out Successfully");
+        res.send("Logged out Successfully");
     } catch(e){
     res.status(500).send()
 }

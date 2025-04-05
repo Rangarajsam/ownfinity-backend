@@ -68,6 +68,16 @@ router.delete('/products/:id', auth, admin, async(req, res) => {
 
 router.get('/products', auth, admin, async(req,res) => {
     try{
+        const products = await Product.find({});
+        res.send(products);
+
+    }catch(e) {
+        res.status(400).send(e);
+    }
+})
+
+router.get('/myProducts', auth, async(req,res) => {
+    try{
         const products = await Product.find({seller:req.user._id});
         res.send(products);
 

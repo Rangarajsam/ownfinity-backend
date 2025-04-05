@@ -13,13 +13,13 @@ router.post('/wishlist/add', auth, async(req, res) => {
         if(!wishList) {
             wishList = new WishList({user:req.user._id, items:[]});
         }
-        const isAlreadyinWishlist = wishList.items.some(w => w.productId.toString() === productId)
+        const isAlreadyinWishlist = wishList.items.some(w => w.product.toString() === productId)
         if(isAlreadyinWishlist) {
             return res.status(400).send({message:"This item is already available in wishlist"})
         }
-        wishList.items.push({productId})
+        wishList.items.push({product:productId})
         await wishList.save();
-        return res.send({message:"wishlist added successfully"})
+        res.send({message:"wishlist added successfully"})
     } catch (e) {
         res.status(400).send(e);
     }
@@ -28,11 +28,11 @@ router.post('/wishlist/add', auth, async(req, res) => {
 router.get('/wishlist', auth, async(req, res) => {
     try {
         const wishList = await WishList.findOne({user:req.user._id}).populate({
-            path:'items.productId',
+            path:'items.product',
             select:'name price description'
         })
         if(!wishList) {
-            res.status(400).send({message:"There are no items found in your wishlist"});
+            return res.status(400).send({message:"There are no items found in your wishlist"});
         }
         res.send(wishList)
         
@@ -41,18 +41,22 @@ router.get('/wishlist', auth, async(req, res) => {
     }
 })
 
-router.delete('wishlist/remove/:productId', auth, async(req, res) => {
+router.delete('/wishlist/remove/:productId', auth, async(req, res) => {
     const productId = req.params.productId;
     try {
         const wishList = await WishList.findOne({user:req.user._id});
         if(!wishList) {
-            res.status(400).send({message:"Wishlist not found"});
+            return res.status(400).send({message:"Wishlist not found"});
         }
-        let itemIndex = wishList.items.findIndex(w => w.productId.toString() === productId);
+        let itemIndex = wishList.items.findIndex(w => w.product.toString() === productId);
         if(itemIndex === -1) {
-            res.status(400).send({message:"This product is not in your wislist"});
+            return res.status(400).send({message:"This product is not in your wislist"});
         }
-        wishList.items = wishList.items.splice(itemIndex, 1);
+        wishList.items.splice(itemIndex, 1);
+        if(wishList.items.length === 0) {
+            await WishList.findByIdAndDelete(wishList._id);
+            return res.send({message:"Last item removed. so, Wishlist deleted"});
+        }
         await wishList.save();
         res.send({message:"item removed from wishlist"})
 
