@@ -30,6 +30,9 @@ app.use(productRouter);
 app.use(cartRouter);
 app.use(wishListRouter);
 app.use(s3Router);
+app.get("/", (req, res) => {
+  res.send("Ownfinity API is up and running 🚀");
+});
 app.listen(port, () => {
     console.log(`Server is up on port ${port}`);
 });
