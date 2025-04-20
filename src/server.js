@@ -9,7 +9,11 @@ import s3Router from './router/s3Router.js';
 import cors from "cors";
 
 const corsOptions = {
-  origin: "http://localhost:3000", 
+  origin: [
+    "http://localhost:3000", 
+    'http://ownfinity.rangarajexplore.in',
+    'https://ownfinity.rangarajexplore.in'
+  ],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true, 
 };
