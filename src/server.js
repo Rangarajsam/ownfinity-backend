@@ -22,6 +22,7 @@ const corsOptions = {
   ],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true, 
+  allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept, Authorization",
 };
 
 import './db/mongoose.js';
@@ -30,6 +31,7 @@ const app = express();
 const port = process.env.PORT;
 
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); 
 app.use(express.json());
 app.use(userRouter);
 app.use(productRouter);
