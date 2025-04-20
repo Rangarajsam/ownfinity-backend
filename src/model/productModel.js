@@ -52,7 +52,8 @@ const productSchema = new mongoose.Schema({
         required: true
     },
     brand: {
-        type: String
+        type: String,
+        required: true
     },
     numReview: {
         type: Number,
@@ -71,7 +72,7 @@ const productSchema = new mongoose.Schema({
     ]
 },
     {
-        timeStamps: true
+        timestamps: true
     })
 
 const Product = mongoose.model('Product', productSchema);

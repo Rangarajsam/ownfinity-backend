@@ -5,6 +5,7 @@ import userRouter from './router/userRouter.js';
 import productRouter from './router/productRouter.js'
 import cartRouter from './router/cartRouter.js';
 import wishListRouter from './router/wishListRouter.js';
+import s3Router from './router/s3Router.js';
 import cors from "cors";
 
 const corsOptions = {
@@ -24,6 +25,7 @@ app.use(userRouter);
 app.use(productRouter);
 app.use(cartRouter);
 app.use(wishListRouter);
+app.use(s3Router);
 app.listen(port, () => {
     console.log(`Server is up on port ${port}`);
 });

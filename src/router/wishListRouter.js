@@ -1,6 +1,5 @@
 import express from 'express';
 import auth from '../middleware/authMiddleware.js';
-import Product from '../model/productModel.js';
 import WishList from '../model/wishListMOdel.js';
 
 const router = express.Router();
@@ -29,7 +28,7 @@ router.get('/wishlist', auth, async(req, res) => {
     try {
         const wishList = await WishList.findOne({user:req.user._id}).populate({
             path:'items.product',
-            select:'name price description'
+            select:'name price description images'
         })
         if(!wishList) {
             return res.status(400).send({message:"There are no items found in your wishlist"});
@@ -55,10 +54,10 @@ router.delete('/wishlist/remove/:productId', auth, async(req, res) => {
         wishList.items.splice(itemIndex, 1);
         if(wishList.items.length === 0) {
             await WishList.findByIdAndDelete(wishList._id);
-            return res.send({message:"Last item removed. so, Wishlist deleted"});
+            return res.send({removedProductId:productId,message:"Last item removed. so, Wishlist deleted"});
         }
         await wishList.save();
-        res.send({message:"item removed from wishlist"})
+        res.send({removedProductId:productId,message:"item removed from wishlist"})
 
     } catch (e) {
         res.status(400).send(e)

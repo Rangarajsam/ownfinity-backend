@@ -19,11 +19,11 @@ router.post('/login', async (req, res) => {
     try {
         const user = await User.findOne({email});
         if(!user) {
-            res.status(400).send(e);
+           return res.status(400).send(e);
         }
         const isPasswordMatching = await bcrypt.compare(password, user.password);
         if(!isPasswordMatching) {
-            res.status(400).send('Password is not matching');
+           return res.status(400).send({message:'Password is not matching'});
         }
         const token = await user.generateAuthToken();
         res.status(201).send({user, token});

@@ -9,7 +9,7 @@ const router = express.Router();
 router.post('/cart', auth, async (req, res) => {
     try {
         const availableCart = await Cart.findOne({ user: req.user._id });
-        const productDetails = await Product.findOne({ seller: req.user._id, _id: req.body.productId });
+        const productDetails = await Product.findOne({_id: req.body.productId });
 
         if (!availableCart) {
             const cart = new Cart({ user: req.user._id, expiresAt: new Date() });
@@ -35,12 +35,12 @@ router.delete('/cart/removeItem/:itemId', auth, async (req, res) => {
     try {
         const cart = await Cart.findOne({ user: req.user._id });
         const itemIndex = cart.items.findIndex(i => i._id.equals(req.params.itemId))
-        if(!itemIndex) {
+        if(itemIndex === -1) {
             return res.status(404).send({message:"Product not fount"});
         }
         cart.items.splice(itemIndex, 1);
         await cart.save();
-        res.send({message:"Product removed successfully"});
+        res.send({id:req.params.itemId,message:"Product removed successfully"});
     } catch (e) {
         res.status(400).send(e);
     }
@@ -89,7 +89,7 @@ router.get('/cart', auth, async (req, res) => {
     try {
         const cart = await Cart.findOne({ user: req.user._id })
         if(!cart) {
-            return res.status(400).send("Cart not found");
+            return res.status(200).send({items:[]});
         }
         res.send(cart);
 
