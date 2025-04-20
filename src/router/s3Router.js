@@ -3,33 +3,25 @@ import auth from '../middleware/authMiddleware.js';
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import crypto from 'crypto';
-import dotenv from 'dotenv';
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-dotenv.config({ path: path.resolve(__dirname, '../../config/dev.env') });
 
 const router = express.Router();
 
-const region = process.env.AWS_BUCKET_REGION;
-const accessKeyId = process.env.AWS_ACCESS_KEY;
-const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
-
-if (!region || !accessKeyId || !secretAccessKey) {
-    throw new Error("Missing required AWS environment variables.");
-}
-
-const s3 = new S3Client({
-    region,
-    credentials: {
-        accessKeyId,
-        secretAccessKey,
-    },
-});
-
 router.post('/s3/signedUrl', auth, async (req, res) => {
+    const region = process.env.AWS_BUCKET_REGION;
+    const accessKeyId = process.env.AWS_ACCESS_KEY;
+    const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+
+    const s3 = new S3Client({
+        region,
+        credentials: {
+            accessKeyId,
+            secretAccessKey,
+        },
+    });
+    
+    if (!region || !accessKeyId || !secretAccessKey) {
+        throw new Error("Missing required AWS environment variables.");
+    }
     const name = req.body.name;
     const type = req.body.type;
     const size = req.body.size;
