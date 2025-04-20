@@ -14,7 +14,35 @@ This is the backend for an ecommerce application (ownfinity) built using **Expre
 
 ## Project Structure
 ```
-backend/ ├── .gitignore ├── .vscode/ │ ├── launch.json ├── config/ │ ├── dev.env ├── package.json ├── pnpm-lock.yaml ├── README.md ├── src/ │ ├── db/ │ │ ├── mongoose.js │ ├── middleware/ │ │ ├── adminMiddleware.js │ │ ├── authMiddleware.js │ ├── model/ │ │ ├── cartModel.js │ │ ├── productModel.js │ │ ├── userModel.js │ │ ├── wishListModel.js │ ├── router/ │ │ ├── cartRouter.js │ │ ├── productRouter.js │ │ ├── s3Router.js │ │ ├── userRouter.js │ │ ├── wishListRouter.js │ ├── server.js │ ├── utils/ │ │ ├── cartUtils.js
+ownfinity-backend/
+├── .gitignore
+├── .vscode/
+│   ├── launch.json
+├── config/
+│   ├── dev.env
+├── package.json
+├── pnpm-lock.yaml
+├── README.md
+├── src/
+│   ├── db/
+│   │   ├── mongoose.js
+│   ├── middleware/
+│   │   ├── adminMiddleware.js
+│   │   ├── authMiddleware.js
+│   ├── model/
+│   │   ├── cartModel.js
+│   │   ├── productModel.js
+│   │   ├── userModel.js
+│   │   ├── wishListModel.js
+│   ├── router/
+│   │   ├── cartRouter.js
+│   │   ├── productRouter.js
+│   │   ├── s3Router.js
+│   │   ├── userRouter.js
+│   │   ├── wishListRouter.js
+│   ├── server.js
+│   ├── utils/
+│   │   ├── cartUtils.js
 ```
 
 ## Installation
