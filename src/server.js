@@ -41,6 +41,6 @@ app.use(s3Router);
 app.get("/", (req, res) => {
   res.send("Ownfinity API is up and running 🚀");
 });
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
     console.log(`Server is up on port ${port}`);
 });
