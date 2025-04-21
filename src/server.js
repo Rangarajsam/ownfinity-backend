@@ -19,7 +19,8 @@ const corsOptions = {
     const allowedOrigins = [
       "http://localhost:3000", 
       'http://ownfinity.rangarajexplore.in',
-      'https://ownfinity.rangarajexplore.in'
+      'https://ownfinity.rangarajexplore.in',
+      'https://ownfinity-frontend-1qn5tc42m-rangarajs-projects-83a7d226.vercel.app/'
     ];
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
