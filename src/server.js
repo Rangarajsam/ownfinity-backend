@@ -15,11 +15,12 @@ import s3Router from './router/s3Router.js';
 import cors from "cors";
 
 const corsOptions = {
-  origin: [
-    "http://localhost:3000", 
-    'http://ownfinity.rangarajexplore.in',
-    'https://ownfinity.rangarajexplore.in'
-  ],
+  // origin: [
+  //   "http://localhost:3000", 
+  //   'http://ownfinity.rangarajexplore.in',
+  //   'https://ownfinity.rangarajexplore.in'
+  // ],
+  origin: "*",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true, 
   allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept, Authorization",
@@ -41,6 +42,6 @@ app.use(s3Router);
 app.get("/", (req, res) => {
   res.send("Ownfinity API is up and running 🚀");
 });
-app.listen(port, '0.0.0.0', () => {
+app.listen(port, () => {
     console.log(`Server is up on port ${port}`);
 });
