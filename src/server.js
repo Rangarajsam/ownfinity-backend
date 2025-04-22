@@ -19,22 +19,18 @@ const corsOptions = {
     const allowedOrigins = [
       'http://localhost:3000', 
       'http://ownfinity.rangarajexplore.in',
-      'https://ownfinity.rangarajexplore.in'
+      'https://ownfinity.rangarajexplore.in',
+      'https://app.ownfinity.rangarajexplore.in'
     ];
-
-    if (
-      !origin ||
-      allowedOrigins.includes(origin) ||
-      /^https:\/\/ownfinity-frontend-.*\.vercel\.app$/.test(origin)
-    ) {
+    if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
     }
   },
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true,
-  allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  credentials: true, 
+  allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept, Authorization",
 };
 
 import './db/mongoose.js';
