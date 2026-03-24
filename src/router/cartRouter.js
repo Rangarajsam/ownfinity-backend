@@ -98,4 +98,17 @@ router.get('/cart', auth, async (req, res) => {
     }
 })
 
+router.get('/cart/count', auth, async(req, res) => {
+    try {
+        const cart = await Cart.findOne({ user: req.user._id })
+        if(!cart) {
+            return res.status(200).send({count:0});
+        }
+        const count = cart.items.reduce((acc, item) => acc + item.quantity, 0);
+        res.send({count});
+    } catch (e) {
+        res.status(400).send(e);
+    }
+})
+
 export default router;

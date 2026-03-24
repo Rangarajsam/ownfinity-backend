@@ -17,18 +17,17 @@ import cors from "cors";
 const corsOptions = {
   origin: (origin, callback) => {
     const allowedOrigins = [
-      'http://localhost:3000', 
       'http://ownfinity.rangarajexplore.in',
       'https://ownfinity.rangarajexplore.in',
       'https://app.ownfinity.rangarajexplore.in'
     ];
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin || origin.startsWith('http://localhost:') || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
     }
   },
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
   credentials: true, 
   allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept, Authorization",
 };

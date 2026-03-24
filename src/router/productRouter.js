@@ -3,6 +3,8 @@ const router = express.Router();
 import auth from '../middleware/authMiddleware.js';
 import admin from '../middleware/adminMiddleware.js';
 import Product from '../model/productModel.js';
+import Cart from '../model/cartModel.js';
+import Wishlist from '../model/wishListModel.js';
 
 router.post('/products', auth, admin, async(req, res) => {
     const staticCategories = [
@@ -121,6 +123,16 @@ router.get('/myProducts', auth, admin, async(req,res) => {
 router.get('/products/:id', auth, async(req,res) => {
     try{
         const product = await Product.find({_id:req.params.id});
+        const availableCart = await Cart.findOne({ user: req.user._id });
+       const availableWishlist = await Wishlist.findOne({ user: req.user._id });
+        if(availableCart) {
+            const isAddedToCart = availableCart.items.some(i => i.productId.equals(req.params.id));
+            product[0]._doc.isAddedToCart = isAddedToCart;
+        }
+        if(availableWishlist) {
+            const isAddedToWishlist = availableWishlist.items.some(i => i.product.toString() === req.params.id);
+            product[0]._doc.isAddedToWishlist = isAddedToWishlist;
+        }
         res.send(product);
     }catch(e) {
         res.status(400).send(e);
